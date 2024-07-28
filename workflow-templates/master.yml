@@ -38,6 +38,7 @@ jobs:
       - version
       - build
     uses: fxfn/actions/.github/workflows/release.yml@v1
+    if: ${{ needs.version.outputs.new_release_published == 'true' }}
     secrets: inherit
     with:
       version: ${{ needs.version.outputs.new_release_version }}
