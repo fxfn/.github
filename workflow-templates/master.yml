@@ -13,24 +13,24 @@ concurrency:
 
 jobs:
   typecheck:
-    uses: fxfn/.github/workflows/typecheck.yml@master
+    uses: fxfn/actions/.github/workflows/typecheck.yml@v1
   
   test:
-    uses: fxfn/.github/workflows/test.yml@master
+    uses: fxfn/actions/.github/workflows/test.yml@v1
 
   version:
     needs:
       - test
       - typecheck
     if: ${{ needs.test.outputs.outcome == 'success' }} && ${{ needs.typecheck.outputs.outcome == 'success' }}
-    uses: fxfn/.github/workflows/version.yml
+    uses: fxfn/actions/.github/workflows/version.v1
     secrets: inherit
 
   build:
     needs:
       - test
       - typecheck
-    uses: fxfn/.github/workflows/build.yml@master
+    uses: fxfn/actions/.github/workflows/build.yml@v1
     secrets: inherit
     with:
       version: ${{ needs.version.outputs.new_release_version }}
@@ -39,7 +39,7 @@ jobs:
     needs:
       - version
       - build
-    uses: fxfn/.github/workflows/release.yml@master
+    uses: fxfn/actions/.github/workflows/release.yml@v1
     secrets: inherit
     with:
       version: ${{ needs.version.outputs.new_release_version }}

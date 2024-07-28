@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   typecheck:
-    uses: ./.github/workflows/typecheck.yml@master
+    uses: fxfn/actions/.github/workflows/typecheck.yml@v1
   
   test:
-    uses: ./.github/workflows/test.yml@master
+    uses: fxfn/actions/.github/workflows/test.yml@v1
