@@ -1,7 +1,5 @@
 name: ci/master
 
-run-name: ${{ github.actor }} pushed or merged code in to master.
-
 on:
   push:
     branches:
