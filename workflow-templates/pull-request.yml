@@ -1,0 +1,19 @@
+name: ci/pull_request
+
+run-name: ${{ github.actor }} pushed to a pull request.
+
+on:
+  push:
+    branches-ignore:
+      - $default-branch
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    uses: ./.github/workflows/typecheck.yml@master
+  
+  test:
+    uses: ./.github/workflows/test.yml@master

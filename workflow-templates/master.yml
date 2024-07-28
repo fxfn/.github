@@ -1,0 +1,48 @@
+name: ci/master
+
+run-name: ${{ github.actor }} pushed or merged code in to master.
+
+on:
+  push:
+    branches:
+      - $default-branch
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  typecheck:
+    uses: fxfn/.github/workflows/typecheck.yml@master
+  
+  test:
+    uses: fxfn/.github/workflows/test.yml@master
+
+  version:
+    needs:
+      - test
+      - typecheck
+    if: ${{ needs.test.outputs.outcome == 'success' }} && ${{ needs.typecheck.outputs.outcome == 'success' }}
+    uses: fxfn/.github/workflows/version.yml
+    secrets: inherit
+
+  build:
+    needs:
+      - test
+      - typecheck
+    uses: fxfn/.github/workflows/build.yml@master
+    secrets: inherit
+    with:
+      version: ${{ needs.version.outputs.new_release_version }}
+
+  release:
+    needs:
+      - version
+      - build
+    uses: fxfn/.github/workflows/release.yml@master
+    secrets: inherit
+    with:
+      version: ${{ needs.version.outputs.new_release_version }}
+      body: ${{ needs.version.outputs.new_release_notes }}
+      artifact_name: ${{ needs.build.outputs.artifact_name }}
+
