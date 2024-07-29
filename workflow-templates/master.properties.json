@@ -1,9 +1,5 @@
 {
   "name": "ci/master",
   "description": "Version, build and release this package on a push to a default branch",
-  "iconName": "octicon versions",
-  "categories": [
-    "JavaScript",
-    "TypeScript"
-  ]
+  "iconName": "octicon versions"
 }
