@@ -1,5 +1,5 @@
 {
   "name": "ci/pull_request",
   "description": "Test and typecheck on every push to a non-default branch",
-  "iconName": "octicon versions"
+  "iconName": "octicon beaker"
 }
